@@ -10,16 +10,16 @@ d3.json("samples.json").then((data) => {
     var name_data = data.names;
 
         // iterate through the values within the array
-        data_name.forEach((name, index) => {
+        name_data.forEach((name, index) => {
 
             // append the option html tags 
-            var nameSelection = idSelect.append("option");
+            var name_selection = idSelect.append("option");
 
             // apppend the name (ID) from the list as text, to the option element which is used for dropdown tags
-            nameSelection.text(name);
+            name_selection.text(name);
 
             // bind the data with the index value from the id/name selection to its corresponding value attribute
-            nameSelection.attr("value",`${index}`); 
+            name_selection.attr("value",`${index}`); 
         });
         });
 
@@ -40,6 +40,7 @@ function initBar() {
 
         // set y values as the OTU values
         var initY = selectObject[1]
+        // chose the first ten values to display 
         var sliceY = initY.slice(0, 10);
         //reverse y values to fit requirements 
         var valuesY = sliceY.reverse()
@@ -50,7 +51,7 @@ function initBar() {
         // map the hover labels based on index location of 3 
         var hoverLabel = selectObject[3]
         var hoverLabelSlice = hoverLabel.slice(0, 10);
-        var hoverValue = slicehover.reverse()
+        var hoverValue = hoverLabelSlice.reverse()
 
         // create the trace for plotting 
         var trace = {
@@ -99,8 +100,8 @@ function initBubble() {
           text: label,
           mode: "markers",
           marker: {
-              size: markersize,
-              color: colorSchem
+              size: markerSize,
+              color: colorSchema
           }
         };
 
@@ -143,7 +144,7 @@ initPanel();
 
 // update the default display panel after certain values are selected 
 
-idSelect.on("change", selectOption);
+idSelect.on("change", optionChanged);
 
   function selectOption () {
   
@@ -158,6 +159,8 @@ idSelect.on("change", selectOption);
   selectedValue = Object.values(data.metadata[selectedOption]);
 
   var addList = d3.select("#sample-metadata");
+
+  addList.html("");
 
         // loop through the 7 values which reflects the length ot the key values in the array
         for (var i = 0; i < 7; i++) {
